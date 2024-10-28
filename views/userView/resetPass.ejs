@@ -1,0 +1,35 @@
+<%-include('../userView/include/_header')-%>
+<div class="text-center center-div d-flex align-items-center justify-content-center" id="LoginPage" style="height: 100vh; width: 100%; background:linear-gradient(-135deg, #cd26a6, #3027db)">
+    <div class="wrapper text-center center-div align-items-center justify-content-center">
+        <div class="title-one">
+            New Password
+        </div>
+        <form action="/user/conformPass" method="POST">
+    
+            <div class="field">
+                <input type="password" name="password"  id="password" onchange="validatePassword();" required>
+                <label>Password</label>
+            </div>
+          
+            <p class="msg" id="message3"></p>
+          
+            <div class="field">
+                <input type="password" name="confirmPassword" id="confirmpass1"  onkeyup="checkPasswordMatch();" required/>
+                <label>Confirm Password</label>
+            </div>
+            <p class="msg" id="message"  ></p>
+            <br>
+            <div class="field">
+                <input type="submit" value="Change Password" id="signupButton" disabled>
+            </div>
+              <div class="signup-link">
+                  Back to <a href="/user/login-page">Home</a>
+              </div>
+              <br>
+        </form>
+    </div>
+</div>
+
+<%-include('../userView/include/_footer')-%>
+
+<script src="/javascript/signupScript.js"></script>

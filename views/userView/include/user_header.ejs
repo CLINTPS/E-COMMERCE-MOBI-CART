@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<head>
+    <html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <!-- <title>Document-1</title> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/styles/user-style.css">
+    <link rel="stylesheet" href="/styles/orderDetails.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="your-script.js"></script>
+</head>
+
+<body>
+    <header class="main_nav" style="border: .5px solid rgb(0, 0, 0)">
+        <div class="top_bar">
+            <p style="margin: 0;">FREE SHIPPING & RETURNS ON ALL US ORDERS</p>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="/user/home">
+                    <img src="/images/Mobi Cart Logo.png" alt="" style="width: 105px;">
+                </a>
+        
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="modal" data-target="#exampleModalCenter">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">About</a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <form class="form-inline" action="/serchAllPorductsShop" method="post">
+                                <div class="input-group">
+                                    <input type="search" name="searchAllProduct" class="form-control" placeholder="Search product">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                            <img src="/images/search.svg" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="/allProducts">
+                                <img width="30" height="28" src="https://img.icons8.com/ios/50/shopping-mall.png" alt="shopping-mall"/>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="/userWhislist">
+                                <img width="30" height="28" src="https://img.icons8.com/fluency-systems-regular/48/like--v1.png" alt="like--v1"/>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="/user/cart">
+                                <img width="29" height="33" src="https://img.icons8.com/parakeet-line/48/shopping-cart.png" alt="shopping-cart"/>
+                            </a>
+                        </li>
+                       
+
+                        <div class="dropdown ml-2">
+                            <% if(user) { %>
+                            <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= user %>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/user/profile">Profile</a>
+                                <a class="dropdown-item" href="/user/logout">Logout</a>
+                            </div>
+                            <% } else { %>
+                                <a class="nav-link" href="/user/login">Login</a>
+                            <% } %>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+
+        <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">MoBI CART E-COMMERCE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h5>MoBI CART international Private Limited</h6>
+            <p>24x7 Customer Care Support</p>
+          <p>www.MoBI_CART_International.com</p>
+          <p>369 Vatakara, Calicut, KK 1515, Kerala.</p>
+          <p>mobicartsupport@gmail.com</p>
+          <p>+91-94923-9999</p>
+          <p></p>
+          <p></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </header>
+
+    
+
+    
+    <style>
+       @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+                margin-top: 10px;
+            }
+            .navbar-toggler {
+                margin-right: 10px;
+            }
+            .dropdown-menu {
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>

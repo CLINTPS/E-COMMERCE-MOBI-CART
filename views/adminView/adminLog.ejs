@@ -1,0 +1,50 @@
+<%-include('../adminView/include/_header')-%>
+   <div class="text-center center-div d-flex align-items-center justify-content-center " style="height: 100vh; width: 100%; background:linear-gradient(135deg, #544e54, #ffffff)">
+      <div class="wrapper text-center center-div align-items-center justify-content-center">
+         <div class="title-Two">
+            Admin Login
+            <h6>Enter your details below</h6>
+         </div>
+         <% if (typeof err !== 'undefined') { %>
+            <h6 class="alert alert-danger"><%- err %></h6>
+                <% } %>
+
+            <%if (locals.logout){%>
+              <div class="alert alert-success text-center">
+                <%=logout%>
+              </div>
+              <%}%>
+         <form action="/admin" method="POST">
+            <div class="field">
+               <input type="text" name="email"  required>
+               <label>Email Address</label>
+            </div>
+            <div class="field">
+               <input type="password" name="password"  id="password" onchange="validatePassword();" required>
+               <label>Password</label>
+            </div>
+            <input type="checkbox" id="showPassword"> Show Password
+            <p class="msg" id="message3"></p>
+            <br>
+            <div class="field">
+               <input type="submit" value="Login">
+            </div>
+         </form>
+      </div>
+   </div>
+<%-include('../adminView/include/_footer')-%>
+
+<script src="/javascript/signupScript.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+   $("#showPassword").on('change', function() {
+            const passwordField = $("#password");
+            if ($(this).is(':checked')) {
+                passwordField.attr('type', 'text');
+            } else {
+                passwordField.attr('type', 'password');
+            }
+        });
+  
+</script>

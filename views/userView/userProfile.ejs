@@ -1,0 +1,241 @@
+<%-include('../userView/include/user_header')-%>
+
+    <section style="background: linear-gradient(135deg, #817f7f, #ffffff);">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <%if(UserData.profilePhoto){%>
+                                <img src="/profile-img/cropProfile-img/<%= UserData.profilePhoto %>"
+                                    id="selectedProfile" alt="Profile" class="rounded-circle img-fluid"
+                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                <%}else{%>
+                                    <img src="/images/unblock.svg" id="selectedProfile" alt="Profile"
+                                        class="rounded-circle img-fluid"
+                                        style="width: 150px; height: 150px; object-fit: cover;">
+                                    <%}%>
+                                        <div>
+                                            <label class="btn btn-round" ,for="imageinput"><i class="fa-solid fa-edit"
+                                                    style="color: black;"></i>
+                                                <input type="file" accept="image/*" id="imageinput"
+                                                    onchange="uploadProfilePicture(event)" style="display: none;" />
+                                            </label>
+                                        </div>
+                                        <h5 class="my-3">
+                                            <i><b>
+                                                    <%= UserData.userName%>
+                                                </b></i>
+                                        </h5>
+                                        <p class="text-muted mb-1"><i>
+                                                <%= UserData.email%>
+                                            </i></p>
+                                        <%if(UserData.address[0]){%>
+                                            <p class="text-muted mb-1"><i>
+                                                    <%= UserData.address[0].mobile%>
+                                                </i></p>
+                                            <%}else{%>
+                                                <p class="text-muted mb-1">Null</p>
+                                                <%}%>
+                                                <div class="m-3"
+                                                style="background-color: rgb(133, 255, 214); border-radius: 10px; padding-left: 10px; display: inline-block; width: max-content;">
+                                                <h6 class="mt-2 m-2">WALLET AMOUNT :₹ <%= UserData.wallet.amount.toFixed(2) %></h1>
+                                            </div>  
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush rounded-3";>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/AddressBook" style="color: black; text-decoration: none;"> My Address Book</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/orderDetails" style="color: black; text-decoration: none">My order</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/cart" style="color: black; text-decoration: none">My Cart</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/offerCoupons" style="color: black; text-decoration: none">My Coupons</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/walletHistory" style="color: black; text-decoration: none">My Wallet History</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="/user/changepass" style="color: black; text-decoration: none">Change Password</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">
+                                        <%= UserData.userName%>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">
+                                        <%= UserData.email%>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Mobile</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <%if(UserData.address[0]){%>
+                                        <p class="text-muted mb-0">
+                                            <%= UserData.address[0].mobile%>
+                                        </p>
+                                        <%}else{%>
+                                            <p class="text-muted mb-0">-----</p>
+                                            <%}%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <%if(UserData.address[0]){%>
+                                        <p class="text-muted mb-0">
+                                            <%= UserData.address[0].addressLine%>
+                                        </p>
+                                        <%}else{%>
+                                            <p class="text-muted mb-0">-----</p>
+                                            <%}%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">City</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <%if(UserData.address[0]){%>
+                                        <p class="text-muted mb-0">
+                                            <%= UserData.address[0].city %>
+                                        </p>
+                                        <%}else{%>
+                                            <p class="text-muted mb-0">-----</p>
+                                            <%}%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">State</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <%if(UserData.address[0]){%>
+                                        <p class="text-muted mb-0">
+                                            <%= UserData.address[0].state %>
+                                        </p>
+                                        <%}else{%>
+                                            <p class="text-muted mb-0">-----</p>
+                                            <%}%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Pincode</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <%if(UserData.address[0]){%>
+                                        <p class="text-muted mb-0">
+                                            <%= UserData.address[0].pincode %>
+                                        </p>
+                                        <%}else{%>
+                                            <p class="text-muted mb-0">-----</p>
+                                            <%}%>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="card p-">
+                        <div class="card-body text-center referral-code d-flex align-items-center">
+                            <h6 class="d-inline mr-2">Referral Link:</h6>
+                            <input type="text" class="form-control form-control-sm" value="http://localhost:5000/user/signup?ref=<%=UserData._id%>" readonly>
+                            <button class="btn btn-outline-success ml-3 btn-sm" onclick="copyReferralCode()">Copy </button>
+                        </div>
+                        </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        function uploadProfilePicture(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('profilePicture', file);
+
+            fetch('/UserProfilePicture', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+
+                        const avatarImage = document.getElementById('selectedProfile');
+                        avatarImage.src = URL.createObjectURL(file);
+                        alert('Profile picture updated successfully!');
+                    } else {
+                        alert('Failed to update profile picture.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function copyReferralCode() {
+        const referralCode = document.querySelector('.referral-code input').value;
+
+        const tempInput = document.createElement('input');
+        tempInput.value = referralCode;
+        document.body.appendChild(tempInput);
+
+        tempInput.select();
+        document.execCommand('copy');
+
+        document.body.removeChild(tempInput);
+
+        Swal.fire({
+        // icon: 'success',
+        text: 'Referral code copied!',
+        showConfirmButton: false,
+        timer:1000
+    });
+    }
+
+    </script>
+
+    <%-include('../userView/include/user_footer')-%>

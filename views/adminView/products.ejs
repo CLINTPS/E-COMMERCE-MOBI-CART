@@ -1,0 +1,135 @@
+<%-include('../adminView/include/ad_header')-%>
+    <%-include('../adminView/include/_sidebar')-%>
+    <div style="width: 300px;">
+        <form action="/admin/searchProduct" method="POST" name="name">
+            <div class="form-outline d-flex p-3">
+                <input type="search" class="form-control" name="search" placeholder="Search" >
+                <button id="search-button" type="submit" class="btn btn-outline-primary mx-2">
+                    <lord-icon
+                        class="fa-solid fa-magnifying-glass"
+                        trigger="hover"
+                        colors="primary:#fff"
+                        style="width:12px;height:20px">
+                    </lord-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div
+        style="position: absolute;top: 16%;right:3.7%; background-color: rgb(30, 32, 119); padding: 5px 10px; border-radius: 5px;">
+        <a href="/admin/add-productPage" style="color: #fff; text-decoration: none;">Add Product</a>
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right " style="color: #f6f0f0;"></i>
+    </div>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Catogary</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Discount Price</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Create Date</th>
+                    <!-- <th scope="col">Udated Date</th> -->
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <% for(let i=0;i<productData.length;i++){%>
+                <tr>
+                    <th scope="row"><%=i+1%></th>
+                    <td>
+                        <%= productData[i].ProductName %>
+                    </td>
+                    <td>
+                        <%= productData[i].Category %>
+                    </td>
+                    <td>
+                        <%= productData[i].BrandName %>
+                    </td>
+                    <td>
+                        <%= productData[i].AvailableQuantity %>
+                    </td>
+                    <td>
+                        <%= productData[i].Price %>
+                    </td>
+                    <td>
+                        <%= productData[i].DiscountAmount %>
+                    </td>
+                    <td><img src="/product-img/<%= productData[i].images[0] %>" alt="product image"
+                        style="height: 50px; width: 50px;"></td>
+                        <td>
+                            <%let date=new Date(productData[i].createdAt)%>
+                            <%=date.getDate()%>/<%=date.getMonth()%>/<%=date.getFullYear()%>
+                        </td>
+                        <!-- <td>
+                            <%let dateNew=new Date(productData[i].updatedAt)%>
+                            <%=dateNew.getDate()%>/<%=dateNew.getMonth()%>/<%=dateNew.getFullYear()%>
+                        </td> -->
+                        <td>
+                            <%if(productData[i].Status===true){%>
+                                    <a href="/admin/productblock/<%- productData[i]._id %>" title="Active User"
+                                        onclick="return confirm('Do you want Block this product')">
+                                        <button style="background-color: rgb(11, 109, 21); color: white; border-radius: 10px;">Active</button>
+                                    </a>
+                                <%}else{%>
+                                    <a href="/admin/productblock/<%- productData[i]._id %>" title="Block User"
+                                        onclick="return confirm('Do you want Active this product')">
+                                        <button style="background-color: red; color: white;  border-radius: 10px;">Block</button>
+                                    </a>
+                                <%}%>
+                        </td>
+                    <td>
+                        <a href="/admin/edit-product/<%-productData[i]._id%>" class="text-white p-3">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color: #000000;"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin/delete-product/<%-productData[i]._id%>" class="text-white"
+                            onclick="return confirm('Do you want to Remove <%-productData[i].ProductName%> ?')">
+                            <i class="fa-solid fa-trash fa-xl" style="color: #000000;"></i>
+                        </a>
+                    </td>
+                </tr>
+                <%}%>
+            </div>
+        </table>
+
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3" id="pagination-navbar">
+            <ul class="pagination">
+                <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="<%= page <= 1 ? '#' : '/admin/productPage?page=' + (page - 1) %>" style="color: black;" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+        
+                <% const displayPages = 4; %>
+                <% const startPage = Math.max(1, page - Math.floor(displayPages / 2)); %>
+                <% const endPage = Math.min(productDataCount, startPage + displayPages - 1); %>
+        
+                <% for (let i = startPage; i <= endPage; i++) { %>
+                    <li class="page-item <%= i === page ? 'active' : '' %>">
+                        <a class="page-link" href="/admin/productPage?page=<%= i %>" style="color: black"><%= i %></a>
+                    </li>
+                <% } %>
+        
+                <li class="page-item <%= page >= productDataCount ? 'disabled' : '' %>">
+                    <a class="page-link" href="<%= page >= productDataCount ? '#' : '/admin/productPage?page=' + (page + 1) %>" style="color: black;" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <style>
+            #pagination-navbar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+            }
+        </style>
+        

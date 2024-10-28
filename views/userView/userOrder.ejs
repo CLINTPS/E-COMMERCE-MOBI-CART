@@ -1,0 +1,246 @@
+<%-include('../userView/include/user_header')-%>
+<header>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</header>
+
+<section class="" style="background: linear-gradient(135deg, #817f7f, #ffffff);">
+    <div class="container py-5 ">
+        <h3>Orders Status</h3>
+        <hr>
+        <div class="row d-flex justify-content-center align-items-center ">
+        <div class="col">
+            <% if(orders){%>
+                <% orders.forEach((order) =>{ %>
+                    <div class="card card-stepper m-3" style="border-radius: 10px;">
+                      <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex flex-column">
+                            <h4 >Your order has been <%= order.Status %></h4>
+                            <hr>
+                            <span class="text-muted small">Orderd by :
+
+                            <% const orderDate = new Date(order.OrderDate); %>
+                            <%= orderDate.toLocaleString('default', { month: 'short' }) %>
+                            <%= orderDate.getDate() %>,
+                            <%= orderDate.getFullYear() %>
+                            <%= orderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %></span>
+
+
+                            <% if(order.Status == "Delivered"){%>
+                                <p class="text-success">Delivered</p>
+                                
+                                <%}else if(order.Status == "Rejected"){%>
+                                  <p class="text-danger">Rejected</p>
+                                  <%}else if(order.Status == "Cancelled"){%>
+                                  <p class="text-danger">Cancelled</p>
+                                    <%}else if(order.Status == "Return Pending"){%>
+                                      <p class="text-danger">Product returned verification pending</p>
+                                     <%}else if(order.Status== "Return Accepted"){%>
+                                        <p class="text-success">Product returned verification Accepted</p>
+                                        <%}else if(order.Status== "Return Canceled"){%>
+                                          <p class="text-danger">Product returned verification Canceled</p>
+                                            <%}else{%>
+                                    <!-- <span class="text-muted small">Expected by :<%= order.ExpectedDeliveryDate %></span> -->
+                                    <%}%>
+                                    <hr>
+                                    <h6>Order ID : <%= order._id%></h6>
+                                    <p>Payment Method : <%= order.PaymentMethod%></p>
+                                    <p>Payment Staus : <%= order.PaymentStatus%></p>
+                          </div>
+                          <div>
+                            <a href="/orderProductView/<%= order._id%>">
+                                <button class="btn btn-success btn-sm" type="button">Product details</button>
+                            </a>
+                            <% if(order.Status == "Delivered"){%>
+                              <button type="button" class="btn btn-danger m-2 btn-sm" 
+                              data-bs-toggle="modal" data-bs-target="#returnOrderModal<%= order._id %>">
+                                Return Order
+                              </button>
+
+                              
+
+                            <button type="button" class="btn btn-warning m-2 btn-sm" onclick="generateAndDownloadInvoice('<%= order._id %>')">
+                              Download Invoice
+                          </button>
+                              <%}else if(order.Status == "Cancelled" || order.Status == "Rejected" || order.Status == "Return Pending" || order.Status== "Return Accepted" || order.Status== "Return Canceled" ){%>
+                                
+                                <%}else{%>
+                                  <a href="/cancelOrderData/<%= order._id%>" onclick="return confirm('Do you want to Cancel this product')">
+                                    <button class="btn btn-danger btn-sm" type="button">Cancel Order</button>
+                                </a>
+                                  <%}%>
+                          </div>
+                        </div>
+                        <hr class="my-4">
+            
+                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                <% if(order.Status == "Pending"){%>
+                                <span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i></span>
+                                <%}else{%>
+                                <span class="dot"></span>
+                                <%}%>
+                          <hr class="flex-fill track-line">
+                                <% if(order.Status == "Order Placed"){%>
+                                <span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i></span>
+                                <%}else{%>
+                                <span class="dot"></span>
+                                <%}%>
+                          <hr class="flex-fill track-line">
+                                <% if(order.Status == "Shipped"){%>
+                                <span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i></span>
+                                <%}else{%>
+                                <span class="dot"></span>
+                                <%}%>
+                          <hr class="flex-fill track-line">
+                                <% if(order.Status == "Delivered"){%>
+                                <span class="d-flex justify-content-center align-items-center big-dot dot">
+                                <i class="fa fa-check text-white"></i></span>
+                                <%}else{%>
+                                <span class="dot"></span>
+                                <%}%>
+                                <% if(order.Status == "Rejected"){%>
+                                  <hr class="flex-fill track-line">
+                                  <span class="d-flex justify-content-center align-items-center big-dot dot custom-dot">
+                                  <i class="fa fa-check text-white"></i></span>
+                                  <%}%>
+                                  <% if(order.Status == "Cancelled"){%>
+                                    <hr class="flex-fill track-line">
+                                    <span class="d-flex justify-content-center align-items-center big-dot dot custom-dot">
+                                    <i class="fa fa-check text-white"></i></span>
+                                    <%}%>
+
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                          <div class="d-flex flex-column align-items-start"><span>----</span><span>Pending</span></div>
+                          <div class="d-flex flex-column justify-content-center"><span>----</span><span>Order Placed</span></div>
+                          <div class="d-flex flex-column justify-content-center"><span>----</span><span>Shipped</span></div>
+                          <div class="d-flex flex-column justify-content-center"><span>----</span><span>Delivered</span></div>
+                          <% if(order.Status == "Rejected"){%>
+                            <div class="d-flex flex-column align-items-end"><span>----</span><span>Rejected</span></div>
+                            <%}else if(order.Status == "Cancelled"){%>
+                              <div class="d-flex flex-column align-items-end"><span>----</span><span>Cancelled</span></div>
+                              <%}%>
+                            </div>
+            
+                      </div>
+                    </div>
+                    <div class="modal fade" id="returnOrderModal<%= order._id %>"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="returnOrderModalLabel">Return Order</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <label for="returnReason">Reason for Return:</label>
+                            <textarea id="returnReason<%= order._id %>" class="form-control" rows="3"></textarea>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="submitReturn('<%= order._id %>')">Submit Return</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }); %>
+
+          <%}else{%>
+            <h1 style="text-align: center;">Orders Data is Empty</h1>
+            <%}%>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function submitReturn(orderIdParam) {
+    const returnReason = document.getElementById(`returnReason${orderIdParam}`).value;
+
+    if (!returnReason.trim()) {
+      Swal.fire({
+            icon: 'error',
+            title: 'Please add return reson',
+            showConfirmButton: false,
+            timer: 10000,
+        });
+    return;
+  }
+    const orderId = orderIdParam; 
+console.log(returnReason);
+    fetch('/submitreturn', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        orderId: orderId,
+        returnReason: returnReason,
+      }),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Return Reason Submitted Successfully',
+            showConfirmButton: false,
+            timer: 10000,
+        });
+
+
+        location.reload();
+      })
+      .catch((error) => {
+        console.error('Error submitting return reason:', error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while submitting the return reason.',
+        });
+
+      });
+
+    $('#returnOrderModal').modal('hide');
+  }
+
+
+    async function generateAndDownloadInvoice(orderId) {
+        try {
+            const response = await fetch('/downloadinvoice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({ orderId }) 
+            });
+            if (response.ok) {
+
+              console.log("inside response");
+              Swal.fire({
+                    icon: 'success',
+                    title: 'Invoice Downloaded Successfully',
+                    showConfirmButton: false,
+                    timer: 1500 
+                });
+
+                window.location.href = `/downloadinvoice/${orderId}`;
+            }
+        } catch (error) {
+            console.error('Error in downloading the invoice:', error);
+        }
+    }
+
+
+    </script>
+
+
+
+<%-include('../userView/include/user_footer')-%>

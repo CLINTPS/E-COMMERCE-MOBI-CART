@@ -1,0 +1,70 @@
+<%-include('../userView/include/_header')-%>
+<div class="text-center center-div d-flex align-items-center justify-content-center h-100" id="LoginPage" style="height: 100vh; width: 100%; background:linear-gradient(135deg, #3d3a3c, #ffffff);">
+    <div class="wrapper text-center center-div align-items-center justify-content-center">
+       <form id="login-form">
+           <div class="title">
+               Login
+           </div>
+           <h6 class="alert " style=" color: red;" id="error-message"></h6>
+            <div class="field">
+                <input type="text" name="email" id="myInput2"  required>
+                <label>Email Address</label>
+            </div>
+            <div class="field">
+                <input type="password" name="password" id="password" required>
+                <label>Password</label>
+            </div>
+            <input type="checkbox" id="showPassword"> Show Password
+            <br>
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+               <a href="/user/forgot-pass">Forgot Password?</a>
+           </div>
+            <div class="signup-link">
+               Not a member? <a href="/user/signup">Signup now</a>
+            </div>
+        </form>
+    </div>
+</div>
+<%-include('../userView/include/_footer')-%>
+<script src="/javascript/signupScript.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#login-form").submit(function (e) {
+            e.preventDefault();
+            const email = $("#myInput2").val();
+            const password = $("#password").val();
+            $.ajax({
+                type: "POST",
+                url: "/user/login",
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = "/user/home";
+                    } else {
+                        $("#error-message").text(response.message);
+                    }
+                },
+                error: function () {
+                    $("#error-message").text("An error occurred while processing your request.");
+                }
+            });
+        });
+    
+    $("#showPassword").on('change', function() {
+            const passwordField = $("#password");
+            if ($(this).is(':checked')) {
+                passwordField.attr('type', 'text');
+            } else {
+                passwordField.attr('type', 'password');
+            }
+        });
+    });
+
+</script>
